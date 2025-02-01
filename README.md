@@ -12,7 +12,6 @@ This project is a full-fledged Duolingo clone built with Next.js, Drizzle for da
 - Backend: Drizzle (ORM for data management)
 - Database: PostgreSQL (relational database)
 - Authentication: Clerk (optional for secure login/registration)
-- Payments: Stripe (optional for in-app purchases)
 
 ## 💡 Features
 
