@@ -143,6 +143,7 @@ export const imageQuestions = pgTable("image_questions", {
       onDelete: "cascade",
       onUpdate: "no action",
     }),
+  questionText: text("questionText").notNull(),
   optionA: text("optionA").notNull(),
   optionB: text("optionB").notNull(),
   optionC: text("optionC"),
