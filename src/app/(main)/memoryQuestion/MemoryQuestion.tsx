@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-// Mocked questions data
 const mockQuestions = [
   {
     imageID: 1,
@@ -38,7 +37,6 @@ const mockQuestions = [
   },
 ];
 
-// Voice memo question
 const voiceMemoQuestions = [
   "Does the photo remind you of a specific time in your life?",
   "What emotions does this memory bring up?",
@@ -54,91 +52,85 @@ const MemoryQuestion = () => {
   const [showVoiceMemo, setShowVoiceMemo] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
+  const [incorrectAnswer, setIncorrectAnswer] = useState(false);
+  const [recognition, setRecognition] = useState<any>(null);
   const router = useRouter();
-  let recognition: SpeechRecognition | null = null;
 
   useEffect(() => {
     const storedImage = localStorage.getItem("selectedMemoryImage");
-
     if (storedImage) {
       setSelectedImage(storedImage);
-
-      // Mock imageID selection (in real app, get it dynamically)
       const assignedImageID = Math.floor(Math.random() * 2) + 1;
       setImageID(assignedImageID);
+      setQuestions(mockQuestions.filter((q) => q.imageID === assignedImageID));
+      setQuestionIndex(0);
+    }
 
-      // Filter questions for the selected image
-      const filteredQuestions = mockQuestions.filter(
-        (q) => q.imageID === assignedImageID
-      );
-      setQuestions(filteredQuestions);
-      setQuestionIndex(0); // Reset question index
+    // Initialize speech recognition
+    const SpeechRecognition =
+      (window as any).SpeechRecognition ||
+      (window as any).webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      const recognitionInstance = new SpeechRecognition();
+      recognitionInstance.continuous = false;
+      recognitionInstance.interimResults = false;
+      recognitionInstance.lang = "en-US";
+      recognitionInstance.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setTranscription(transcript);
+      };
+      recognitionInstance.onend = () => {
+        setIsRecording(false);
+      };
+      setRecognition(recognitionInstance);
     }
   }, []);
+
+  useEffect(() => {
+    if (incorrectAnswer) {
+      const timer = setTimeout(() => {
+        setIncorrectAnswer(false);
+        if (questionIndex >= questions.length - 1) {
+          setShowVoiceMemo(true);
+        } else {
+          setQuestionIndex((prevIndex) => prevIndex + 1);
+        }
+        setSelectedAnswer(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [incorrectAnswer]);
 
   const handleContinue = () => {
     if (showVoiceMemo) {
       router.push("/memoryCompletion");
       return;
     }
-
     if (selectedAnswer === questions[questionIndex]?.correctAnswer) {
       if (questionIndex < questions.length - 1) {
         setQuestionIndex((prevIndex) => prevIndex + 1);
-        setSelectedAnswer(null); // Reset answer for next question
+        setSelectedAnswer(null);
       } else {
-        setShowVoiceMemo(true); // Show voice memo question after multiple-choice
+        setShowVoiceMemo(true);
       }
     } else {
-      alert("Incorrect! Try again.");
+      setIncorrectAnswer(true);
     }
   };
 
-  // 🎤 Start Speech Recognition
-  const startRecording = () => {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognition = new SpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = true;
-    recognition.lang = "en-US";
-
-    recognition.onstart = () => {
-      setIsRecording(true);
-    };
-
-    recognition.onresult = (event) => {
-      let finalTranscript = "";
-
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const result = event.results[i][0].transcript;
-        if (event.results[i].isFinal) {
-          finalTranscript += result + " "; // Append only final results
-        }
-      }
-
-      setTranscription((prev) => prev + finalTranscript); // Add to previous text
-    };
-
-    recognition.onend = () => {
-      setIsRecording(false);
-    };
-
-    recognition.start();
-  };
-
-  // 🛑 Stop Recording
-  const stopRecording = () => {
-    if (recognition) {
+  const toggleRecording = () => {
+    if (isRecording) {
       recognition.stop();
+    } else {
+      setTranscription("");
+      recognition.start();
     }
-    setIsRecording(false);
+    setIsRecording(!isRecording);
   };
 
   return (
     <div className="mx-auto h-full max-w-[912px] px-3 flex flex-col items-center">
-      {/* Display Selected Memory */}
-      {selectedImage && (
+      {selectedImage && !incorrectAnswer && (
         <div className="h-64 w-64 border-4 border-[#1DB0F7] rounded-xl overflow-hidden">
           <img
             src={selectedImage}
@@ -148,30 +140,23 @@ const MemoryQuestion = () => {
         </div>
       )}
 
-      {/* Multiple-Choice Questions */}
-      {!showVoiceMemo && questions.length > 0 && (
+      {!showVoiceMemo && questions.length > 0 && !incorrectAnswer && (
         <>
           <h2 className="text-2xl font-bold my-4 text-center">
-            {questions[questionIndex].questionText}
+            {questions[questionIndex]?.questionText}
           </h2>
-
-          {/* Display answer options */}
           <div className="grid grid-cols-2 gap-4 w-full max-w-[400px]">
             {[
-              questions[questionIndex].optionA,
-              questions[questionIndex].optionB,
-              questions[questionIndex].optionC,
-              questions[questionIndex].optionD,
+              questions[questionIndex]?.optionA,
+              questions[questionIndex]?.optionB,
+              questions[questionIndex]?.optionC,
+              questions[questionIndex]?.optionD,
             ]
-              .filter(Boolean) // Remove null options for boolean questions
+              .filter(Boolean)
               .map((option: string, index: number) => (
                 <button
                   key={index}
-                  className={`px-4 py-2 rounded-lg border-2 font-bold ${
-                    selectedAnswer === option
-                      ? "bg-[#1DB0F7] text-white"
-                      : "bg-gray-200 text-gray-600"
-                  }`}
+                  className={`px-4 py-2 rounded-lg border-2 font-bold ${selectedAnswer === option ? "bg-[#1DB0F7] text-white" : "bg-gray-200 text-gray-600"}`}
                   onClick={() => setSelectedAnswer(option)}
                 >
                   {option}
@@ -181,33 +166,29 @@ const MemoryQuestion = () => {
         </>
       )}
 
-      {/* Voice Memo Question */}
-      {showVoiceMemo && (
+      {incorrectAnswer && (
+        <div className="text-2xl font-bold text-center mt-6">
+          We’ll revisit this memory next time!
+        </div>
+      )}
+
+      {showVoiceMemo && !incorrectAnswer && (
         <>
           <h2 className="text-2xl font-bold text-center mt-6">
-            {voiceMemoQuestions[0]} {/* Always asks one question */}
+            {voiceMemoQuestions[0]}
           </h2>
-
-          {/* 🎤 Tap to Speak Button */}
           <button
-            className={`mt-4 w-full py-4 text-lg font-bold rounded-xl border-2 ${
-              isRecording
-                ? "bg-red-500 text-white"
-                : "bg-gray-100 text-gray-600"
-            }`}
-            onClick={isRecording ? stopRecording : startRecording}
+            className={`mt-4 w-full py-4 text-lg font-bold rounded-xl border-2 ${isRecording ? "bg-red-500 text-white" : "bg-gray-100 text-gray-600"}`}
+            onClick={toggleRecording}
           >
             {isRecording ? "🛑 Recording..." : "🎤 Tap to Speak"}
           </button>
-
-          {/* 📝 Transcription Display */}
           <div className="mt-4 w-full bg-gray-100 rounded-xl p-4 min-h-[100px] text-xl leading-relaxed text-gray-700">
             {transcription || "Your spoken response will appear here..."}
           </div>
         </>
       )}
 
-      {/* Continue Button */}
       <button
         className="mt-6 px-6 py-3 bg-[#1DB0F7] text-white text-lg font-bold rounded-xl shadow-md hover:scale-105 transition-transform"
         disabled={showVoiceMemo ? !transcription : !selectedAnswer}
