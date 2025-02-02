@@ -1,16 +1,16 @@
-import { redirect } from "next/navigation";
 import { FeedWrapper } from "@/components/feed-wrapper";
+import { Promo } from "@/components/promo";
+import { Quests } from "@/components/quests";
 import { StickyWrapper } from "@/components/sticky-wrapper";
 import { UserProgress } from "@/components/user-progress";
 import { getUserProgress, getUserSubscription } from "@/db/queries";
-import { Promo } from "@/components/promo";
-import { Quests } from "@/components/quests";
-import MemoryLaneHeader from "./_components/MemoryLaneHeader";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
+import MemoryLaneHeader from "./_components/MemoryLaneHeader";
 
 export const metadata: Metadata = {
-  title: "Memolane | Memories",
-  description: "Relive your memories through time.",
+  title: "MemoReplay | Memories",
+  description: "Replay your memories through time.",
 };
 
 const LearnPage = async () => {

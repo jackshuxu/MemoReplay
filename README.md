@@ -1,35 +1,38 @@
-# 📷 Memolane: Connecting Through Memories
+# 📷 MemoReplay: Replay Your Memories
 
-Memolane is an app designed to help people connect through shared memories and assist Alzheimer's patients in recalling events using images from their photo library. By leveraging AI and intuitive design, Memolane fosters meaningful connections and enhances memory retention.
+MemoReplay is an app designed to help people connect through shared memories and assist dementia patients in recalling events using images from their photo library. By leveraging AI and intuitive design, MemoReplay fosters meaningful connections and enhances memory retention.
+
+MemoReplay was created for [Hack@Brown 2025](https://2025.hackatbrown.org/) by:
+- **[Alex Mazansky](https://alexmazansky.com)** (Brown '26): Backend Developer
+- **[Christina Wang](https://wangchristina.com/)** (RISD '26): UI/UX Designer
+- **[Jack Xu](https://www.jack-shuxu.com/)** (Brown '27): Full-Stack Developer
+- **[Chris Zou](https://www.chris-zou.com/)** (Brown '27): Frontend Developer
 
 ## 🌟 Features
 
 - 🖼️ **Photo-Based Memory Recall** – Uses images to trigger memories and reconnect users with past events.
-- 🧠 **Alzheimer’s Support** – Tailored features to help patients with memory loss remember important moments.
-- 🔊 **Voice Annotations** – Users can add and listen to personalized voice notes for each photo.
+- 🧠 **Alzheimer's Support** – Tailored features to help patients with memory loss remember important moments.
+- 🔊 **Voice Annotations** – Users can add personalized voice notes for each photo.
 - 🤖 **AI-Assisted Reminders** – AI-generated memory prompts based on metadata and past interactions.
-- 🏠 **Family & Friends Sharing** – Securely share memories with loved ones in private groups.
-- 🔍 **Smart Search** – AI-powered image recognition to help users find memories quickly.
-- 📅 **Timeline View** – Organizes memories chronologically for easy navigation.
 - ☁️ **Cloud Sync & Backup** – Securely stores and syncs memories across devices.
 
 ## 💻 Technologies Used
 
-- **Frontend:** Next.js (React framework)
+- **Frontend:** Next.js
 - **Backend:** Drizzle
-- **Database:** PostgreSQL (relational database)
-- **Authentication:** Clerk (optional for secure login/registration)
-- **AI Integration:** OpenAI / Google Vision API for image recognition and memory prompts
+- **Database:** PostgreSQL
+- **AI Integration:** OpenAI API (for image recognition and memory prompts)
+- **Authentication:** Clerk
 
 ## 🚀 Installation & Setup
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/memolane.git
+   git clone https://github.com/jackxushu/MemoReplay.git
    ```
 2. **Install Dependencies:**
    ```bash
-   cd memolane
+   cd MemoReplay
    npm install
    ```
 3. **Create a `.env` File** and fill in the required values:
