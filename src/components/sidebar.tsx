@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
 
+import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
+import { Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { SideBarItem } from "./sidebar-item";
-import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
-import { Loader } from "lucide-react";
 
 type Props = {
   className?: string;
@@ -15,7 +15,7 @@ const SideBarData = [
   { label: "Learn", href: "/learn", iconSrc: "/learn.svg" },
   { label: "Leaderbaord", href: "/leaderboard", iconSrc: "/leaderboard.svg" },
   { label: "Quests", href: "/quests", iconSrc: "/quests.svg" },
-  { label: "shop", href: "/shop", iconSrc: "/shop.svg" },
+  { label: "Add Memories", href: "upload", iconSrc: "/shop.svg" },
 ];
 
 export const SideBar = ({ className }: Props) => {
