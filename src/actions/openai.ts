@@ -1,9 +1,10 @@
 "use server";
 
-import { images, imageQuestions } from "@/db/schema";
-import OpenAI from "openai";
-import { eq } from "drizzle-orm";
 import db from "@/db/drizzle";
+import { imageQuestions, images } from "@/db/schema";
+import { auth } from "@clerk/nextjs";
+import { eq } from "drizzle-orm";
+import OpenAI from "openai";
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -19,19 +20,31 @@ interface Question {
   correctAnswer: string;
 }
 
-export async function generateQuestionsForImage(imageId: number) {
+// interface QuestionsResult {
+//   success: boolean;
+//   questionsGenerated: number;
+//   questions: Question[];
+// }
+
+export async function generateQuestionsForImage(imageUrl: string) {
+  const { userId } = await auth();
+
   try {
     // Fetch the image from the database
-    const imageRecord = await db.query.images.findFirst({
-      where: eq(images.id, imageId),
-    });
+    // const imageRecord = await db.query.images.findFirst({
+    //   where: eq(images.id, imageId),
+    // });
 
-    if (!imageRecord) {
-      throw new Error("Image not found");
-    }
+    // if (!imageRecord) {
+    //   throw new Error("Image not found");
+    // }
 
     // System prompt to specify the format
     const systemPrompt = `You are an expert in reminiscence therapy. Analyze the image and create 20 multiple-choice questions that will help the user recall details about their life and memories. Each question should have exactly 4 options.
+
+    The first 10 questions should have an objectively correct answer based on the contents of the image: do not infer anything about the user's life. Please list the correct answer in the "correctAnswer" field: spread the correct answers evenly across options A, B, C, and D.
+
+    The second 10 questions should prompt the user to think about their life more reflectively and not have an objective answer. For these questions, set the correctAnswer field to null.
 
     Format your response in the following JSON structure. Please do not enclose it in a code block: just the plain text will suffice.
     {
@@ -42,7 +55,7 @@ export async function generateQuestionsForImage(imageId: number) {
           "optionB": "string",
           "optionC": "string",
           "optionD": "string",
-          "correctAnswer": "string" // should be one of: "optionA", "optionB", "optionC", or "optionD"
+          "correctAnswer": "string" | null // should be one of: "optionA", "optionB", "optionC", "optionD", or null - as per above
         }
       ]
     }`;
@@ -65,7 +78,7 @@ export async function generateQuestionsForImage(imageId: number) {
             {
               type: "image_url",
               image_url: {
-                url: imageRecord.filePath,
+                url: imageUrl,
                 detail: "high",
               },
             },
@@ -89,22 +102,24 @@ export async function generateQuestionsForImage(imageId: number) {
     const questions: Question[] = parsedContent.questions;
 
     // Insert questions into the database
-    const questionInserts = questions.map((question) => ({
-      imageID: imageId,
-      questionText: question.question,
-      optionA: question.optionA,
-      optionB: question.optionB,
-      optionC: question.optionC,
-      optionD: question.optionD,
-      correctAnswer: question.correctAnswer,
-    }));
+    // const questionInserts = questions.map((question) => ({
+    //   imageID: imageId,
+    //   userId: userId!,
+    //   questionText: question.question,
+    //   optionA: question.optionA,
+    //   optionB: question.optionB,
+    //   optionC: question.optionC,
+    //   optionD: question.optionD,
+    //   correctAnswer: question.correctAnswer,
+    // }));
 
-    // Batch insert all questions
-    await db.insert(imageQuestions).values(questionInserts);
+    // // Batch insert all questions
+    // await db.insert(imageQuestions).values(questionInserts);
 
     return {
       success: true,
       questionsGenerated: questions.length,
+      questions: questions,
     };
   } catch (error) {
     console.error("Error generating questions:", error);

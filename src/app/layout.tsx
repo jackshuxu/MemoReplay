@@ -10,9 +10,8 @@ import { PracticeModal } from "@/components/modal/practice-modal";
 const font = Nunito({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Lingo",
-  description:
-    "Learning a language on Duolingo is completely free, but you can remove ads and support free education with Super. First 2 weeks on us! Learn more ...",
+  title: "MemoReplay",
+  description: "Go back in time and relive your memories with MemoReplay.",
   icons: {
     icon: "/favicon.ico",
   },
