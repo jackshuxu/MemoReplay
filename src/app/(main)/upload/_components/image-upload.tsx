@@ -10,27 +10,21 @@ interface UploadResult {
 
 export const ImageUpload = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [result, setResult] = useState<UploadResult | null>(null);
   const [error, setError] = useState<string>("");
+  const [memories, setMemories] = useState<UploadResult[]>([]);
 
-  // Function to perform the upload
-  const uploadFile = async () => {
-    if (!selectedFile) {
-      setError("Please select an image to upload");
-      return;
-    }
+  // This function uploads the file immediately upon selection.
+  const uploadFile = async (file: File): Promise<void> => {
     setLoading(true);
     setError("");
-    setResult(null);
-
     try {
       const formData = new FormData();
-      formData.append("file", selectedFile);
+      formData.append("file", file);
 
-      const uploadResult = await uploadImageToS3(formData);
-      setResult(uploadResult);
+      const result = await uploadImageToS3(formData);
+      // Append the new upload result to the memories list.
+      setMemories((prev) => [...prev, result]);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "An unknown error occurred"
@@ -40,24 +34,24 @@ export const ImageUpload = () => {
     }
   };
 
-  // Handle file selection from the hidden input
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // When a file is selected, immediately trigger the upload.
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
+      const file = e.target.files[0];
+      await uploadFile(file);
+      // Clear the input so the same file can be re-selected if needed.
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
   };
 
-  // This function is called when the icon is clicked.
-  // If no file is selected, it triggers the file chooser.
-  // If a file is already selected, it initiates the upload.
+  // Clicking the icon simply triggers the file input.
   const handleIconClick = () => {
-    if (!selectedFile) {
-      fileInputRef.current?.click();
-    } else {
-      uploadFile();
-    }
+    fileInputRef.current?.click();
   };
 
+  // Loading overlay while the upload is in progress.
   const renderLoadingOverlay = (): JSX.Element => (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-4 rounded">
@@ -80,7 +74,7 @@ export const ImageUpload = () => {
       />
 
       {/* Single Upload Icon Button */}
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center mb-8">
         <button
           type="button"
           onClick={handleIconClick}
@@ -103,34 +97,37 @@ export const ImageUpload = () => {
             />
           </svg>
         </button>
-        {selectedFile && (
-          <p className="mt-2 text-sm text-gray-600">{selectedFile.name}</p>
-        )}
       </div>
 
       {/* Error Message */}
       {error && (
-        <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
           {error}
         </div>
       )}
 
-      {/* Upload Result */}
-      {result && (
-        <div className="mt-4">
-          <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded">
-            <p>
-              Successfully uploaded image and generated {result.questionsCount}{" "}
-              questions!
-            </p>
-            <img
-              src={result.imageUrl}
-              alt="Uploaded"
-              className="mt-4 max-w-md rounded shadow"
-            />
+      {/* Memories You’ve Explored Section */}
+      <section>
+        <h2 className="text-xl font-bold mb-4">Your Memories</h2>
+        {memories.length === 0 ? (
+          <p className="text-gray-600">No memories uploaded yet.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            {memories.map((memory, index) => (
+              <div
+                key={index}
+                className="aspect-square bg-gray-100 rounded overflow-hidden"
+              >
+                <img
+                  src={memory.imageUrl}
+                  alt={`Memory ${index + 1}`}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            ))}
           </div>
-        </div>
-      )}
+        )}
+      </section>
 
       {loading && renderLoadingOverlay()}
     </div>
