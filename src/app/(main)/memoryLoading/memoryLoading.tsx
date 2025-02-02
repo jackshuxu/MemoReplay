@@ -23,32 +23,26 @@ const MemoryLoading = () => {
       </div>
 
       {/* Content Box (Larger on Mobile) */}
-      <div className="bg-white w-full sm:max-w-[90%] md:max-w-[400px] p-6 sm:p-8 rounded-lg shadow-md z-10">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-          Hi Chris!
+      <div className="bg-white w-full sm:max-w-[90%] md:max-w-[400px] p-6 sm:p-8 rounded-lg ">
+        <h1 className="text-2xl sm:text-3xl font-bold text-black-700 text-left ">
+          Hi!
         </h1>
-        <p className="text-lg sm:text-xl text-gray-700 mt-4">
+        <p className="text-lg sm:text-xl font-bold text-black-700 mt-4 text-left ">
           Pull from your magical garden of memories. I will show you a photo and
           you answer!
         </p>
 
-        {/* Loading Dots */}
-        <div className="flex justify-center mt-4 space-x-2">
-          {[1, 2, 3].map((_, index) => (
-            <div
-              key={index}
-              className="h-3 w-3 sm:h-4 sm:w-4 bg-gray-300 rounded-full animate-pulse"
-            ></div>
-          ))}
+        <div className="flex flex-col items-left">
+          <div className="loader size w-full h-full"></div>
+          <button
+            className="mt-6 px-6 py-3 sm:px-8 sm:py-4 bg-[#1DB0F7] text-white text-lg sm:text-xl font-bold rounded-xl shadow-md hover:scale-105 transition-transform"
+            onClick={() => router.push("/memoryQuestion")}
+          >
+            Continue →
+          </button>
         </div>
 
         {/* Continue Button (Larger on Mobile) */}
-        <button
-          className="mt-6 px-6 py-3 sm:px-8 sm:py-4 bg-[#1DB0F7] text-white text-lg sm:text-xl font-bold rounded-xl shadow-md hover:scale-105 transition-transform"
-          onClick={() => router.push("/memoryQuestion")}
-        >
-          Continue →
-        </button>
       </div>
 
       {/* Bunny & Garden SVG - Switch for Mobile */}

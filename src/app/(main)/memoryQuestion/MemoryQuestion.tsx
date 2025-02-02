@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Rive } from "@rive-app/canvas";
 
 const mockQuestions = [
   {
@@ -155,15 +156,15 @@ const MemoryQuestion = () => {
           <h2 className="text-2xl font-bold my-4 text-center">
             {questions[questionIndex]?.questionText}
           </h2>
-          {/* SVG Bunny Illustration */}
           <div className="my-4">
             <img
               src="/Group 2474.svg"
               alt="Memory Garden Mobile"
               className="w-full h-auto max-h-[60vh] sm:hidden object-contain scale-110 translate-x-[-50%]"
             />
+
             <img
-              src="/Group 2474.svg" // Ensure this SVG file is in the public folder
+              src="/Group 2474.svg"
               alt="Bunny Illustration"
               className="hidden sm:flex w-full h-auto max-h-[50vh] object-contain scale-120 translate-x-[-50%]"
             />
@@ -197,6 +198,9 @@ const MemoryQuestion = () => {
       {incorrectAnswer && (
         <div className="text-2xl font-bold text-center mt-6">
           We’ll revisit this memory next time!
+          <div className="relative w-50% h-[200px] sm:h-[300px]">
+            <img src="/Newww.gif" alt="Loading animation" />
+          </div>
         </div>
       )}
 
@@ -218,7 +222,7 @@ const MemoryQuestion = () => {
       )}
 
       <button
-        className="mt-6 px-6 py-3 bg-[#1DB0F7] text-white text-lg font-bold rounded-xl shadow-md hover:scale-105 transition-transform"
+        className="mt-6 px-6 py-3 bg-[#1DB0F7] text-white text-lg font-bold rounded-xl shadow-md hover:scale-105 transition-transform bottom-20"
         disabled={showVoiceMemo ? !transcription : !selectedAnswer}
         onClick={handleContinue}
       >
