@@ -93,7 +93,7 @@ export const LessonButton = ({
                     locked
                       ? "fill-neutral-400 stroke-neutral-400 text-neutral-400"
                       : "fill-primary-foreground text-primary-foreground",
-                    isCompleted && "fill-none stroke-[4]",
+                    isCompleted && "fill-none stroke-[4]"
                   )}
                 />
               </Button>
@@ -111,7 +111,7 @@ export const LessonButton = ({
                 locked
                   ? "fill-neutral-400 stroke-neutral-400 text-neutral-400"
                   : "fill-primary-foreground text-primary-foreground",
-                isCompleted && "fill-none stroke-[4]",
+                isCompleted && "fill-none stroke-[4]"
               )}
             />
           </Button>
