@@ -54,6 +54,8 @@ const MemoryQuestion = () => {
   const [showVoiceMemo, setShowVoiceMemo] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
+  const [showRetryMessage, setShowRetryMessage] = useState(false);
+  const [incorrectAnswer, setIncorrectAnswer] = useState(false); // New state for incorrect answer
   const router = useRouter();
   let recognition: SpeechRecognition | null = null;
 
@@ -76,6 +78,18 @@ const MemoryQuestion = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (incorrectAnswer) {
+      const timer = setTimeout(() => {
+        setIncorrectAnswer(false);
+        setQuestionIndex((prevIndex) => prevIndex + 1);
+        setSelectedAnswer(null); // Reset answer for next question
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [incorrectAnswer]);
+
   const handleContinue = () => {
     if (showVoiceMemo) {
       router.push("/memoryCompletion");
@@ -90,7 +104,7 @@ const MemoryQuestion = () => {
         setShowVoiceMemo(true); // Show voice memo question after multiple-choice
       }
     } else {
-      alert("Incorrect! Try again.");
+      setIncorrectAnswer(true); // Show incorrect answer message
     }
   };
 
@@ -138,7 +152,7 @@ const MemoryQuestion = () => {
   return (
     <div className="mx-auto h-full max-w-[912px] px-3 flex flex-col items-center">
       {/* Display Selected Memory */}
-      {selectedImage && (
+      {selectedImage && !incorrectAnswer && (
         <div className="h-64 w-64 border-4 border-[#1DB0F7] rounded-xl overflow-hidden">
           <img
             src={selectedImage}
@@ -149,7 +163,7 @@ const MemoryQuestion = () => {
       )}
 
       {/* Multiple-Choice Questions */}
-      {!showVoiceMemo && questions.length > 0 && (
+      {!showVoiceMemo && questions.length > 0 && !incorrectAnswer && (
         <>
           <h2 className="text-2xl font-bold my-4 text-center">
             {questions[questionIndex].questionText}
@@ -179,6 +193,13 @@ const MemoryQuestion = () => {
               ))}
           </div>
         </>
+      )}
+
+      {/* Incorrect Answer Message */}
+      {incorrectAnswer && (
+        <div className="text-2xl font-bold text-center mt-6">
+          We’ll revisit this memory next time!
+        </div>
       )}
 
       {/* Voice Memo Question */}
@@ -214,6 +235,18 @@ const MemoryQuestion = () => {
         onClick={handleContinue}
       >
         Continue →
+      </button>
+      <button
+        className="mt-4 px-6 py-2 bg-gray-300 text-gray-700 text-lg font-bold rounded-xl shadow-md hover:bg-gray-400 transition-transform"
+        onClick={() => {
+          if (questionIndex < questions.length - 1) {
+            setQuestionIndex((prevIndex) => prevIndex + 1);
+          } else {
+            handleContinue(); // If it's the last question, proceed
+          }
+        }}
+      >
+        Skip Question
       </button>
     </div>
   );
