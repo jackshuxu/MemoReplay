@@ -123,7 +123,7 @@ export default function Home() {
               animate={wideSwing}
               style={{
                 top: "10%", // Positioned 10% from the top for mobile
-                right: "10%", // Positioned 10% from the right for mobile
+                right: "0%", // Positioned 10% from the right for mobile
                 transform: "translate(50%, -50%)", // Adjust position and center it
               }}
             />
@@ -132,7 +132,7 @@ export default function Home() {
             <motion.img
               src="/Rectangle 1729.svg"
               alt="Shapes"
-              className="w-32 h-auto object-contain absolute z-[1] sm:hidden"
+              className="w-32 h-auto object-contain absolute z-[-1] sm:hidden"
               animate={slowDrift}
               style={{
                 bottom: "10%", // Positioned 10% from the bottom for mobile
@@ -145,7 +145,7 @@ export default function Home() {
             <motion.img
               src="/Star 2.svg"
               alt="Shapes"
-              className="w-32 h-auto object-contain absolute z-[1] sm:hidden"
+              className="w-32 h-auto object-contain absolute z-[-1] sm:hidden"
               animate={randomMovement}
               style={{
                 bottom: "10%", // Positioned 10% from the bottom for mobile
