@@ -12,9 +12,8 @@ MemoReplay was created for [Hack@Brown 2025](https://2025.hackatbrown.org/) by:
 
 - 🖼️ **Photo-Based Memory Recall** – Uses images to trigger memories and reconnect users with past events.
 - 🧠 **Alzheimer's Support** – Tailored features to help patients with memory loss remember important moments.
-- 🔊 **Voice Annotations** – Users can add and listen to personalized voice notes for each photo.
+- 🔊 **Voice Annotations** – Users can add personalized voice notes for each photo.
 - 🤖 **AI-Assisted Reminders** – AI-generated memory prompts based on metadata and past interactions.
-- 🏠 **Family & Friends Sharing** – Securely share memories with loved ones in private groups.
 - ☁️ **Cloud Sync & Backup** – Securely stores and syncs memories across devices.
 
 ## 💻 Technologies Used
