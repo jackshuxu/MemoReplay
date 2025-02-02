@@ -82,6 +82,7 @@ export async function uploadImageToS3(formData: FormData) {
       success: true,
       imageUrl,
       questionsCount: openAiQuery.questions?.length || 0,
+      questions: openAiQuery.questions,
     };
   } catch (error) {
     console.error("Error in uploadImageToS3:", error);

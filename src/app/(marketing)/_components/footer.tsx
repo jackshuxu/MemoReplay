@@ -7,58 +7,53 @@ export const Footer = () => {
       <div className="mx-auto flex h-full max-w-screen-lg items-center justify-evenly">
         <Button size="lg" variant="ghost" className="w-full">
           <Image
-            src="/hr.svg"
-            alt="Croatian"
+            src="/png/bunny.png"
+            alt="bunny"
             height={32}
             width={40}
             className="mr-4 rounded-md"
             style={{ width: "auto" }}
           />
-          Croatian
         </Button>
         <Button size="lg" variant="ghost" className="w-full">
           <Image
-            src="/es.svg"
-            alt="Spanish"
+            src="/png/doggy.png"
+            alt="doggy"
             height={32}
             width={40}
             className="mr-4 rounded-md"
             style={{ width: "auto" }}
           />
-          Spanish
         </Button>
         <Button size="lg" variant="ghost" className="w-full">
           <Image
-            src="/fr.svg"
-            alt="French"
+            src="/png/dinny.png"
+            alt="dinny"
             height={32}
             width={40}
             className="mr-4 rounded-md"
             style={{ width: "auto" }}
           />
-          French
         </Button>
         <Button size="lg" variant="ghost" className="w-full">
           <Image
-            src="/it.svg"
-            alt="Italian"
+            src="/png/puppy.png"
+            alt="puppy"
             height={32}
             width={40}
             className="mr-4 rounded-md"
             style={{ width: "auto" }}
           />
-          Italian
         </Button>
         <Button size="lg" variant="ghost" className="w-full">
           <Image
-            src="/jp.svg"
-            alt="Japanese"
+            src="/png/bunny.png"
+            alt="bunny"
             height={32}
             width={40}
             className="mr-4 rounded-md"
             style={{ width: "auto" }}
           />
-          Japanese
         </Button>
       </div>
     </footer>
