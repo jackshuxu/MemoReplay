@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const mockQuestions = [
   {
@@ -55,7 +55,15 @@ const MemoryQuestion = () => {
   const [incorrectAnswer, setIncorrectAnswer] = useState(false);
   const [recognition, setRecognition] = useState<any>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const image = searchParams.get("image");
 
+  const [completedMemories, setCompletedMemories] = useState<number>(0);
+
+  useEffect(() => {
+    const storedCount = localStorage.getItem("completedMemories");
+    if (storedCount) setCompletedMemories(parseInt(storedCount, 10));
+  }, []);
   useEffect(() => {
     const storedImage = localStorage.getItem("selectedMemoryImage");
     if (storedImage) {
@@ -103,7 +111,9 @@ const MemoryQuestion = () => {
 
   const handleContinue = () => {
     if (showVoiceMemo) {
-      router.push("/memoryCompletion");
+      const newCount = completedMemories + 1;
+      localStorage.setItem("completedMemories", newCount.toString());
+      router.push(`/memoryCompletion?image=${encodeURIComponent(image)}`);
       return;
     }
     if (selectedAnswer === questions[questionIndex]?.correctAnswer) {
@@ -145,6 +155,19 @@ const MemoryQuestion = () => {
           <h2 className="text-2xl font-bold my-4 text-center">
             {questions[questionIndex]?.questionText}
           </h2>
+          {/* SVG Bunny Illustration */}
+          <div className="my-4">
+            <img
+              src="/Group 2474.svg"
+              alt="Memory Garden Mobile"
+              className="w-full h-auto max-h-[60vh] sm:hidden object-contain scale-110 translate-x-[-50%]"
+            />
+            <img
+              src="/Group 2474.svg" // Ensure this SVG file is in the public folder
+              alt="Bunny Illustration"
+              className="hidden sm:flex w-full h-auto max-h-[50vh] object-contain scale-120 translate-x-[-50%]"
+            />
+          </div>
           <div className="grid grid-cols-2 gap-4 w-full max-w-[400px]">
             {[
               questions[questionIndex]?.optionA,
@@ -156,7 +179,12 @@ const MemoryQuestion = () => {
               .map((option: string, index: number) => (
                 <button
                   key={index}
-                  className={`px-4 py-2 rounded-lg border-2 font-bold ${selectedAnswer === option ? "bg-[#1DB0F7] text-white" : "bg-gray-200 text-gray-600"}`}
+                  className={`px-4 py-2 rounded-lg border-2 font-bold transition-all duration-200 
+    ${
+      selectedAnswer === option
+        ? "bg-[#1DB0F7] text-white shadow-[0_0_10px_#1DB0F7]"
+        : "bg-white text-[#939393]"
+    }`}
                   onClick={() => setSelectedAnswer(option)}
                 >
                   {option}
