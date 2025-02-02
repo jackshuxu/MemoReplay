@@ -9,17 +9,17 @@ import { toast } from "sonner";
 
 type Props = {
   courses: (typeof courses.$inferSelect)[];
-  activreCourseId?: typeof userProgress.$inferSelect.activeCourseId;
+  activeCourseId?: typeof userProgress.$inferSelect.activeCourseId;
 };
 
-export const List = ({ courses, activreCourseId }: Props) => {
+export const List = ({ courses, activeCourseId }: Props) => {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
 
   const onClick = (id: number) => {
     if (pending) return;
 
-    if (id === activreCourseId) {
+    if (id === activeCourseId) {
       return router.push("/learn");
     }
 
@@ -38,7 +38,7 @@ export const List = ({ courses, activreCourseId }: Props) => {
           onClick={onClick}
           title={course.title}
           disabled={pending}
-          active={course.id === activreCourseId}
+          active={course.id === activeCourseId}
         />
       ))}
     </div>
