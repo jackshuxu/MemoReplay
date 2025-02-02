@@ -124,9 +124,10 @@ export const challengeProgressRelations = relations(
 
 export const images = pgTable("images", {
   id: serial("id").primaryKey(),
-  filePath: text("filePath").notNull(),
-  dateAdded: timestamp("dateAdded").defaultNow(),
-  dateTaken: timestamp("dateTaken"),
+  userId: text("user_id").notNull(),
+  filePath: text("file_path").notNull(),
+  dateAdded: timestamp("date_added").defaultNow(),
+  dateTaken: timestamp("date_taken"),
   latitude: numeric("latitude", { precision: 9, scale: 6 }),
   longitude: numeric("longitude", { precision: 9, scale: 6 }),
 });
@@ -137,18 +138,19 @@ export const imageRelations = relations(images, ({ many }) => ({
 
 export const imageQuestions = pgTable("image_questions", {
   id: serial("id").primaryKey(),
-  imageID: integer("imageID")
+  imageID: integer("image_id")
     .notNull()
     .references(() => images.id, {
       onDelete: "cascade",
       onUpdate: "no action",
     }),
-  questionText: text("questionText").notNull(),
-  optionA: text("optionA").notNull(),
-  optionB: text("optionB").notNull(),
-  optionC: text("optionC"),
-  optionD: text("optionD"),
-  correctAnswer: text("correctAnswer"),
+  userId: text("user_id").notNull(),
+  questionText: text("question_text").notNull(),
+  optionA: text("option_a").notNull(),
+  optionB: text("option_b").notNull(),
+  optionC: text("option_c"),
+  optionD: text("option_d"),
+  correctAnswer: text("correct_answer"),
 });
 
 export const imageQuestionRelations = relations(imageQuestions, ({ one }) => ({
