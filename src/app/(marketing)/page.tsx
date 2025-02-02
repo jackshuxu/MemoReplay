@@ -54,7 +54,7 @@ export default function Home() {
     <div className="mx-auto flex w-full max-w-[988px] flex-1 flex-col items-center justify-center gap-2 p-4 -mt-20">
       <div className="flex flex-col items-center gap-y-8">
         <div className="flex flex-col items-center justify-center w-full">
-          <h1 className="max-w-[480px] text-center text-2xl font-bold text-white lg:text-2xl">
+          <h1 className="max-w-[480px] text-center text-2xl font-bold text-white lg:text-2xl z-[999]">
             Welcome To
           </h1>
           <Image
@@ -62,7 +62,7 @@ export default function Home() {
             alt="MemoReplay"
             width={250}
             height={250}
-            className="mt-2 mb-2"
+            className="mt-2 mb-2 z-[999]"
           />
         </div>
         <div className="flex w-full max-w-[330px] flex-col items-center gap-y-3">
@@ -89,16 +89,24 @@ export default function Home() {
                 afterSignInUrl="/learn"
                 afterSignUpUrl="/learn"
               >
-                <Button size="lg" variant="primaryOutline" className="w-full">
+                <Button
+                  size="lg"
+                  variant="primaryOutline"
+                  className="w-full z-[999]"
+                >
                   I already have an account
                 </Button>
               </SignInButton>
             </SignedOut>
-            <img src="/Timeline 1.gif" alt="Loading animation" />
+            <img
+              className="z-[999]"
+              src="/Timeline 1.gif"
+              alt="Loading animation"
+            />
             <motion.img
               src="/Polygon 58.svg"
               alt="Shapes"
-              className="hidden sm:flex w-32 h-auto object-contain absolute z-[1]"
+              className="hidden sm:flex w-32 h-auto object-contain absolute z-[-1]"
               animate={randomMovement}
               style={{
                 top: "10%", // Positioned 10% from the top
