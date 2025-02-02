@@ -7,6 +7,54 @@ body,
 :root {
   @apply h-full;
 }
+/* From Uiverse.io by Shoh2008 */
+.loader {
+  width: 38.4px; /* Reduced from 48px by 20% */
+  height: 38.4px; /* Reduced from 48px by 20% */
+  background: #353535;
+  display: block;
+  margin: 16px auto; /* Adjusted margin */
+  position: relative;
+  box-sizing: border-box;
+  animation: rotationBack 1s ease-in-out infinite reverse;
+}
+
+.loader::before {
+  content: "";
+  box-sizing: border-box;
+  left: 0;
+  top: 0;
+  transform: rotate(45deg);
+  position: absolute;
+  width: 38.4px; /* Reduced from 48px by 20% */
+  height: 38.4px; /* Reduced from 48px by 20% */
+  background: #2e2e2e;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+
+.loader::after {
+  content: "";
+  box-sizing: border-box;
+  width: 25.6px; /* Reduced from 32px by 20% */
+  height: 25.6px; /* Reduced from 32px by 20% */
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: rgb(0, 0, 0);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes rotationBack {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
+}
 
 @layer base {
   :root {
