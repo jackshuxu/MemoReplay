@@ -20,18 +20,24 @@ interface Question {
   correctAnswer: string;
 }
 
-export async function generateQuestionsForImage(imageId: number) {
+// interface QuestionsResult {
+//   success: boolean;
+//   questionsGenerated: number;
+//   questions: Question[];
+// }
+
+export async function generateQuestionsForImage(imageUrl: string) {
   const { userId } = await auth();
 
   try {
     // Fetch the image from the database
-    const imageRecord = await db.query.images.findFirst({
-      where: eq(images.id, imageId),
-    });
+    // const imageRecord = await db.query.images.findFirst({
+    //   where: eq(images.id, imageId),
+    // });
 
-    if (!imageRecord) {
-      throw new Error("Image not found");
-    }
+    // if (!imageRecord) {
+    //   throw new Error("Image not found");
+    // }
 
     // System prompt to specify the format
     const systemPrompt = `You are an expert in reminiscence therapy. Analyze the image and create 20 multiple-choice questions that will help the user recall details about their life and memories. Each question should have exactly 4 options.
@@ -72,7 +78,7 @@ export async function generateQuestionsForImage(imageId: number) {
             {
               type: "image_url",
               image_url: {
-                url: imageRecord.filePath,
+                url: imageUrl,
                 detail: "high",
               },
             },
@@ -96,23 +102,24 @@ export async function generateQuestionsForImage(imageId: number) {
     const questions: Question[] = parsedContent.questions;
 
     // Insert questions into the database
-    const questionInserts = questions.map((question) => ({
-      imageID: imageId,
-      userId: userId!,
-      questionText: question.question,
-      optionA: question.optionA,
-      optionB: question.optionB,
-      optionC: question.optionC,
-      optionD: question.optionD,
-      correctAnswer: question.correctAnswer,
-    }));
+    // const questionInserts = questions.map((question) => ({
+    //   imageID: imageId,
+    //   userId: userId!,
+    //   questionText: question.question,
+    //   optionA: question.optionA,
+    //   optionB: question.optionB,
+    //   optionC: question.optionC,
+    //   optionD: question.optionD,
+    //   correctAnswer: question.correctAnswer,
+    // }));
 
-    // Batch insert all questions
-    await db.insert(imageQuestions).values(questionInserts);
+    // // Batch insert all questions
+    // await db.insert(imageQuestions).values(questionInserts);
 
     return {
       success: true,
       questionsGenerated: questions.length,
+      questions: questions,
     };
   } catch (error) {
     console.error("Error generating questions:", error);

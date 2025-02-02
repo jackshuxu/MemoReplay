@@ -37,8 +37,16 @@ Memolane is an app designed to help people connect through shared memories and a
    ```bash
    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
    CLERK_SECRET_KEY=your_clerk_secret_key
+
    DATABASE_URL=your_postgres_connection_string
-   OPENAI_API_KEY=your_ai_service_key
+
+   OPENAI_API_KEY=your_openai_api_key
+
+   AWS_REGION=your_aws_region
+   AWS_ACCESS_KEY_ID=your_aws_access_key_id
+   AWS_SECRET_ACCESS_KEY=your_aws_secret_access_key
+   AWS_BUCKET_NAME=your_aws_bucket_name
+
    NEXT_PUBLIC_APP_URL=your_app_url
    ```
 
