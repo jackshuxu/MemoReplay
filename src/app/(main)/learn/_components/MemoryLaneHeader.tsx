@@ -1,6 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const imageNames = [
   "IMG_3887.JPG",
@@ -50,7 +50,7 @@ const MemoryLaneHeader = () => {
     <div className="flex flex-col items-center">
       <h1 className="text-2xl font-bold text-neutral-700">Choose a Memory</h1>
       <p className="mb-6 text-center text-lg text-muted-foreground">
-        Tap on a photo that you want to relive
+        Tap on a memory that you want to replay
       </p>
 
       {/* Memory Grid */}

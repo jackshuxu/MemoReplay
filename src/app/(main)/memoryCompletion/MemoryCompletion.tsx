@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const MemoryCompletion = () => {
   const router = useRouter();
@@ -42,7 +42,7 @@ const MemoryCompletion = () => {
         Keep Exploring Memories:
       </h1>
       <p className="mb-6 text-center text-lg text-muted-foreground">
-        Tap on a photo that you want to relive
+        Tap on a memory that you want to replay
       </p>
       {/* Display Selected Memory */}
       {selectedImage && (
