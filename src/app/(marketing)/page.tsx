@@ -13,20 +13,20 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div
-      className="mx-auto flex w-full max-w-[988px] flex-1 flex-col 
-    items-center justify-center gap-2 p-4 lg:flex-row"
-    >
-      <div
-        className="relative mb-8 h-[240px]
-       w-[240px] lg:mb-0 lg:h-[424px] lg:w-[424px]"
-      >
-        <Image src="/hero.svg" alt="Hero" fill loading="eager" />
-      </div>
+    <div className="mx-auto flex w-full max-w-[988px] flex-1 flex-col items-center justify-center gap-2 p-4 -mt-20">
       <div className="flex flex-col items-center gap-y-8">
-        <h1 className="max-w-[480px] text-center text-xl font-bold text-neutral-600 lg:text-3xl">
-          Kill yourself
-        </h1>
+        <div className="flex flex-col items-center justify-center w-full">
+          <h1 className="max-w-[480px] text-center text-2xl font-bold text-white lg:text-2xl">
+            Welcome To
+          </h1>
+          <Image
+            src="/png/MemoReplay 3x.png"
+            alt="MemoReplay"
+            width={250}
+            height={250}
+            className="mt-2 mb-2"
+          />
+        </div>
         <div className="flex w-full max-w-[330px] flex-col items-center gap-y-3">
           <ClerkLoading>
             <Loader className="h-5 w-5 animate-spin text-muted-foreground" />
@@ -38,7 +38,11 @@ export default function Home() {
                 afterSignInUrl="/learn"
                 afterSignUpUrl="/learn"
               >
-                <Button size="lg" variant="secondary" className="w-full">
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="w-full bg-[#9FD474] hover:bg-[#8bc262]"
+                >
                   Get Started
                 </Button>
               </SignUpButton>
@@ -54,11 +58,20 @@ export default function Home() {
             </SignedOut>
             <SignedIn>
               <Button size="lg" variant="secondary" className="w-full" asChild>
-                <Link href="/learn">Continue Learning</Link>
+                <Link href="/learn">Continue Exploring</Link>
               </Button>
             </SignedIn>
           </ClerkLoaded>
         </div>
+      </div>
+      <div className="absolute bottom-[-100px] h-[424px] w-[424px] lg:h-[424px] lg:w-[424px]">
+        <Image
+          src="/png/mascot-spark.png"
+          alt="Hero"
+          loading="eager"
+          width={550}
+          height={550}
+        />
       </div>
     </div>
   );
