@@ -1,6 +1,7 @@
 import { getCourses, getUserProgress } from "@/db/queries";
 import { List } from "./_components/list";
 import { Metadata } from "next";
+import MemoryLaneHeader from "./_components/MemoryLaneHeader";
 
 export const metadata: Metadata = {
   title: "Lingo | Courses",
@@ -19,7 +20,7 @@ const CoursesPage = async () => {
 
   return (
     <div className="mx-auto h-full max-w-[912px] px-3">
-      <h1 className="text-2xl font-bold text-neutral-700">Language Courses</h1>
+      <MemoryLaneHeader />
       <List courses={courses} activreCourseId={userProgress?.activeCourseId} />
     </div>
   );
