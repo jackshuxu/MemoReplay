@@ -2,6 +2,12 @@
 
 MemoReplay is an app designed to help people connect through shared memories and assist dementia patients in recalling events using images from their photo library. By leveraging AI and intuitive design, MemoReplay fosters meaningful connections and enhances memory retention.
 
+MemoReplay was created for [Hack@Brown 2025](https://2025.hackatbrown.org/) by:
+- **[Alex Mazansky](https://alexmazansky.com)** (Brown '26): Backend Developer
+- **[Christina Wang](https://wangchristina.com/)** (RISD '26): UI/UX Designer
+- **[Jack Xu](https://www.jack-shuxu.com/)** (Brown '27): Full-Stack Developer
+- **[Chris Zou](https://www.chris-zou.com/)** (Brown '27): Frontend Developer
+
 ## 🌟 Features
 
 - 🖼️ **Photo-Based Memory Recall** – Uses images to trigger memories and reconnect users with past events.
