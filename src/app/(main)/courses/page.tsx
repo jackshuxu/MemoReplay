@@ -1,6 +1,7 @@
 import { getCourses, getUserProgress } from "@/db/queries";
 import { List } from "./_components/list";
 import { Metadata } from "next";
+import MemoryLaneHeader from "./_components/MemoryLaneHeader";
 
 export const metadata: Metadata = {
   title: "Lingo | Courses",
