@@ -38,7 +38,7 @@ Memolane is an app designed to help people connect through shared memories and a
    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
    CLERK_SECRET_KEY=your_clerk_secret_key
    DATABASE_URL=your_postgres_connection_string
-   AI_API_KEY=your_ai_service_key
+   OPENAI_API_KEY=your_ai_service_key
    NEXT_PUBLIC_APP_URL=your_app_url
    ```
 

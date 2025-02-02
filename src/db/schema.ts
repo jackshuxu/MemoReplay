@@ -2,6 +2,7 @@ import { relations } from "drizzle-orm";
 import {
   boolean,
   integer,
+  numeric,
   pgEnum,
   pgTable,
   serial,
@@ -99,7 +100,7 @@ export const challengeOptionsRelations = relations(
       fields: [challengeOptions.challengeId],
       references: [challenges.id],
     }),
-  }),
+  })
 );
 
 export const challengeProgress = pgTable("challenge_progress", {
@@ -118,8 +119,44 @@ export const challengeProgressRelations = relations(
       fields: [challengeProgress.challengeId],
       references: [challenges.id],
     }),
-  }),
+  })
 );
+
+export const images = pgTable("images", {
+  id: serial("id").primaryKey(),
+  filePath: text("filePath").notNull(),
+  dateAdded: timestamp("dateAdded").defaultNow(),
+  dateTaken: timestamp("dateTaken"),
+  latitude: numeric("latitude", { precision: 9, scale: 6 }),
+  longitude: numeric("longitude", { precision: 9, scale: 6 }),
+});
+
+export const imageRelations = relations(images, ({ many }) => ({
+  imageQuestions: many(imageQuestions),
+}));
+
+export const imageQuestions = pgTable("image_questions", {
+  id: serial("id").primaryKey(),
+  imageID: integer("imageID")
+    .notNull()
+    .references(() => images.id, {
+      onDelete: "cascade",
+      onUpdate: "no action",
+    }),
+  questionText: text("questionText").notNull(),
+  optionA: text("optionA").notNull(),
+  optionB: text("optionB").notNull(),
+  optionC: text("optionC"),
+  optionD: text("optionD"),
+  correctAnswer: text("correctAnswer"),
+});
+
+export const imageQuestionRelations = relations(imageQuestions, ({ one }) => ({
+  challenge: one(images, {
+    fields: [imageQuestions.imageID],
+    references: [images.id],
+  }),
+}));
 
 export const userProgress = pgTable("user_progress", {
   userId: text("user_id").primaryKey(),
