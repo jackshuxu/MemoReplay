@@ -61,5 +61,3 @@ Memolane is an app designed to help people connect through shared memories and a
 3. **Set Environment Variables** – Add `.env` values in Vercel.  
 4. **Deploy** – Click "Deploy" and Vercel will handle the rest!  
 
-
-
