@@ -57,10 +57,10 @@ const LeaderBoardPage = async () => {
             width={90}
           />
           <h1 className="my-6 text-center text-2xl font-bold text-neutral-800">
-            Leaderboard
+            Community
           </h1>
           <p className="mb-6 text-center text-lg text-muted-foreground">
-            See where you stand among other learners in the community.
+            See where you stand among other members in the community.
           </p>
           <Separator className="mb-4 h-0.5 rounded-full" />
           {leaderboard.map((userProgress, index) => (
